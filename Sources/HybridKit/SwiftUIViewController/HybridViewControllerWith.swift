@@ -9,7 +9,7 @@ import SwiftUI
 
 open class HybridControllerWith<ViewModel>: UIViewController where ViewModel: ObservableObject {
     
-    @ObservedObject private(set) var viewModel: ViewModel
+    @ObservedObject public private(set) var viewModel: ViewModel
     
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel
