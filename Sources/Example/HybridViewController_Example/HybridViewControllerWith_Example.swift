@@ -4,7 +4,7 @@
 //
 //  Created by 박종우 on 8/31/24.
 //
-
+#if !os(macOS)
 import UIKit
 
 class HomeViewController: HybridControllerWith<HomeViewModel> {
@@ -66,3 +66,4 @@ class HomeViewController: HybridControllerWith<HomeViewModel> {
         }
     }
 }
+#endif

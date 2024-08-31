@@ -5,6 +5,7 @@
 //  Created by 박종우 on 8/27/24.
 //
 
+#if !os(macOS)
 import SwiftUI
 
 open class HybridController: UIViewController {
@@ -47,3 +48,4 @@ open class HybridController: UIViewController {
         hostingController.didMove(toParent: self)
     }
 }
+#endif
