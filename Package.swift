@@ -22,5 +22,6 @@ let package = Package(
         .testTarget(
             name: "HybridKitTests",
             dependencies: ["HybridKit"]),
-    ]
+    ],
+    swiftLanguageVersions: [.v5]
 )
