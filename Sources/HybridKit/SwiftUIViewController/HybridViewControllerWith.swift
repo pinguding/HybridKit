@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-open class HybridControllerWith<ViewModel>: UIViewController where ViewModel: ObservableObject {
+open class HybridControllerWith<Object>: UIViewController where Object: ObservableObject {
     
-    @ObservedObject public private(set) var viewModel: ViewModel
+    @ObservedObject public private(set) var observedObject: Object
     
-    public init(viewModel: ViewModel) {
-        self.viewModel = viewModel
+    public init(observedObject: Object) {
+        self.observedObject = observedObject
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -31,7 +31,7 @@ open class HybridControllerWith<ViewModel>: UIViewController where ViewModel: Ob
     }
     
     private func addSwiftUIView(_ view: some View) {
-        let hostingController = UIHostingController(rootView: HybridViewWith(viewModel, content: { [unowned self] in
+        let hostingController = UIHostingController(rootView: HybridViewWith(observedObject, content: { [unowned self] in
             self.body
         }))
         
