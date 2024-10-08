@@ -9,15 +9,28 @@ import SwiftUI
 
 open class HybridTableViewCellWith<CellConfigure>: UITableViewCell {
     
-    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    open override func prepareForReuse() {
+        super.prepareForReuse()
         
-//        guard let uiView = UIHostingController(rootView: AnyView(body())).view else { return }
-        
+        self.contentView.subviews.forEach { view in
+            let viewConstraints = view.constraints
+            view.removeConstraints(viewConstraints)
+            view.removeFromSuperview()
+        }
     }
     
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    public final func configure(with configure: CellConfigure) {
+        guard let uiView = UIHostingController(rootView: AnyView(body(with: configure))).view else { return }
+        
+        self.contentView.addSubview(uiView)
+        
+        NSLayoutConstraint.activate([
+            uiView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            uiView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            uiView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            uiView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+        ])
     }
     
     open func body(with configure: CellConfigure) -> any View {
