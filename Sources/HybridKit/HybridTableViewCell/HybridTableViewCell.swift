@@ -9,28 +9,30 @@ import SwiftUI
 
 open class HybridTableViewCell: UITableViewCell {
     
-    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    
-        guard let uiView = UIHostingController(rootView: AnyView(body)).view else { return }
+    open override func prepareForReuse() {
+        super.prepareForReuse()
         
-        uiView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.subviews.forEach { view in
+            let viewConstraints = view.constraints
+            view.removeConstraints(viewConstraints)
+            view.removeFromSuperview()
+        }
+    }
+    
+    public final func configure() {
+        guard let uiView = UIHostingController(rootView: AnyView(body())).view else { return }
         
         self.contentView.addSubview(uiView)
         
         NSLayoutConstraint.activate([
-            uiView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            uiView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            uiView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            uiView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            uiView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            uiView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            uiView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            uiView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
     }
     
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    open var body: any View {
+    open func body() -> any View {
         EmptyView()
     }
 }
