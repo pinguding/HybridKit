@@ -2,24 +2,25 @@
 //  File.swift
 //  HybridKit
 //
-//  Created by 박종우 on 10/8/24.
+//  Created by 박종우 on 10/20/24.
 //
+
 #if !os(macOS)
 import SwiftUI
 
-open class HybridTableViewCellWith<CellConfigure>: UITableViewCell {
+open class HybridTableHeaderFooterViewWith<HeaderFooterConfigurable>: UITableViewHeaderFooterView {
     
     open override func prepareForReuse() {
         super.prepareForReuse()
         
         self.contentView.subviews.forEach { view in
-            let viewConstraints = view.constraints
-            view.removeConstraints(viewConstraints)
+            let constraints = view.constraints
+            view.removeConstraints(constraints)
             view.removeFromSuperview()
         }
     }
     
-    public final func configure(with configure: CellConfigure) {
+    public final func configure(with configure: HeaderFooterConfigurable) {
         guard let uiView = UIHostingController(rootView: AnyView(body(with: configure))).view else { return }
         
         uiView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +35,7 @@ open class HybridTableViewCellWith<CellConfigure>: UITableViewCell {
         ])
     }
     
-    open func body(with configure: CellConfigure) -> any View {
+    open func body(with configure: HeaderFooterConfigurable) -> any View {
         EmptyView()
     }
 }

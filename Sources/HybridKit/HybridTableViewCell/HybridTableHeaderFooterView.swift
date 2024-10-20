@@ -1,14 +1,14 @@
 //
-//  File.swift
+//  HybridTableHeaderFooterView.swift
 //  HybridKit
 //
-//  Created by 박종우 on 10/8/24.
+//  Created by 박종우 on 10/20/24.
 //
 #if !os(macOS)
 import SwiftUI
 
-open class HybridTableViewCellWith<CellConfigure>: UITableViewCell {
-    
+open class HybridTableHeaderFooterView: UITableViewHeaderFooterView {
+
     open override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -19,8 +19,10 @@ open class HybridTableViewCellWith<CellConfigure>: UITableViewCell {
         }
     }
     
-    public final func configure(with configure: CellConfigure) {
-        guard let uiView = UIHostingController(rootView: AnyView(body(with: configure))).view else { return }
+    public final func configure() {
+        guard let uiView = UIHostingController(rootView: AnyView(body())).view else {
+            return
+        }
         
         uiView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -28,15 +30,16 @@ open class HybridTableViewCellWith<CellConfigure>: UITableViewCell {
         
         NSLayoutConstraint.activate([
             uiView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            uiView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             uiView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            uiView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             uiView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
     }
     
-    open func body(with configure: CellConfigure) -> any View {
+    open func body() -> any View {
         EmptyView()
     }
 }
 
 #endif
+

@@ -22,6 +22,8 @@ open class HybridTableViewCell: UITableViewCell {
     public final func configure() {
         guard let uiView = UIHostingController(rootView: AnyView(body())).view else { return }
         
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        
         self.contentView.addSubview(uiView)
         
         NSLayoutConstraint.activate([
